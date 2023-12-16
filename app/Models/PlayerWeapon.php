@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $player_weapon_id
@@ -22,6 +23,21 @@ class PlayerWeapon extends Model
         'created_at',
         'updated_at',
     ];
+
+    public static function getKillsFor(Player $player): Collection
+    {
+        return Weapon::query()
+            ->leftJoin('player_weapons', static function ($query) use ($player) {
+                $query->on('weapons.weapon_id', '=', 'player_weapons.weapon_id')
+                    ->where('player_weapons.player_id', '=', $player->player_id);
+            })
+            ->selectRaw('weapons.weapon_id, weapon_name, coalesce(kill_count, 0) as kill_count')
+            ->get()
+            ->collect()
+            ->mapWithKeys(static function ($weapon) {
+                return [$weapon->weapon_id => $weapon];
+            });
+    }
 
     public function weapon()
     {

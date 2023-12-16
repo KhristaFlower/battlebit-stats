@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'dashboard' => 'Instrumententafel',
+    'you_are_logged_in' => 'Sie sind angemeldet!',
+    'search' => 'Suchen',
+    'compare' => 'Vergleichen',
+    'my_players' => 'Mein Spieler',
+    'no_players_found' => 'Keine Spieler gefunden.',
+    'search_for_players' => 'Suche nach Spielern',
+    'name' => 'Name',
+    'kills' => 'Kills',
+    'actions' => 'Aktionen',
+    'create_new_player' => 'Neuen Spieler erstellen',
+    'open' => 'Öffnen',
+    'edit' => 'Bearbeiten',
+    'delete' => 'Löschen',
+    'save' => 'Speichern',
+    'update' => 'Aktualisieren',
+    'create' => 'Erstellen',
+    'edit_player' => 'Spieler bearbeiten',
+    'player_name' => 'Spielername',
+    'player_one' => 'Spieler eins',
+    'player_two' => 'Spieler zwei',
+];

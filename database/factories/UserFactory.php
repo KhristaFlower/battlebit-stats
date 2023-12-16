@@ -2,12 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Player;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<User>
  */
 class UserFactory extends Factory
 {
@@ -37,5 +39,14 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function withPlayer(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->players()->save(
+                Player::factory()->make()
+            );
+        });
     }
 }

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Player;
 use App\Models\PlayerWeapon;
+use App\Models\User;
 use App\Models\Weapon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,6 +18,7 @@ class PlayerFactory extends Factory
             'player_name' => $this->faker->userName(),
             'player_rank' => $this->faker->numberBetween(0, 200),
             'player_prestige' => $this->faker->biasedNumberBetween(0, 5),
+            'user_id' => User::factory(),
         ];
     }
 

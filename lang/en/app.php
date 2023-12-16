@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'dashboard' => 'Dashboard',
+    'you_are_logged_in' => 'You\'re logged in!',
+    'search' => 'Search',
+    'compare' => 'Compare',
+    'my_players' => 'My Players',
+    'no_players_found' => 'No players found.',
+    'search_for_players' => 'Search for players',
+    'name' => 'Name',
+    'kills' => 'Kills',
+    'actions' => 'Actions',
+    'create_new_player' => 'Create new player',
+    'open' => 'Open',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'save' => 'Save',
+    'update' => 'Update',
+    'create' => 'Create',
+    'edit_player' => 'Edit player',
+    'player_name' => 'Player name',
+    'player_one' => 'Player one',
+    'player_two' => 'Player two',
+];
