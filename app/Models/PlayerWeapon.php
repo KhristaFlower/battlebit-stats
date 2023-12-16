@@ -31,7 +31,7 @@ class PlayerWeapon extends Model
                 $query->on('weapons.weapon_id', '=', 'player_weapons.weapon_id')
                     ->where('player_weapons.player_id', '=', $player->player_id);
             })
-            ->selectRaw('weapons.weapon_id, weapon_name, coalesce(kill_count, 0) as kill_count')
+            ->selectRaw('weapons.weapon_id, weapon_name, coalesce(kill_count, 0) as kill_count, weapon_category_id')
             ->get()
             ->collect()
             ->mapWithKeys(static function ($weapon) {

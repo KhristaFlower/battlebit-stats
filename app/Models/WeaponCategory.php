@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * @property int $category_id
+ * @property int $weapon_category_id
  * @property string $category_name
+ * @property int $display_order
  *
  * @property Weapon[] $weapons
  */
@@ -23,11 +24,15 @@ class WeaponCategory extends Model
         'updated_at',
     ];
 
+    protected $fillable = [
+        'category_name',
+    ];
+
     public static function getWeapons()
     {
         return static::query()
             ->with('weapons')
-            ->orderBy('weapon_category_id')
+            ->orderBy('display_order')
             ->get();
     }
 
@@ -47,5 +52,41 @@ class WeaponCategory extends Model
             ->select('weapon_categories.weapon_category_id', 'weapon_categories.category_name')
             ->selectRaw('sum(player_weapons.kill_count) as total_kills')
             ->get();
+    }
+
+    public function displayOrderMoveUp(): void
+    {
+        $this->setDisplayOrder($this->display_order - 1);
+    }
+
+    public function displayOrderMoveDown(): void
+    {
+        $this->setDisplayOrder($this->display_order + 1);
+    }
+
+    public function setDisplayOrder(int $position): void
+    {
+        if ($this->display_order && $this->display_order < $position) {
+            // Move the category down (up the list)
+            static::query()
+                ->where('display_order', '>=', $position)
+                ->where('display_order' , '<', $this->display_order)
+                ->increment('display_order');
+        } elseif ($this->display_order && $this->display_order > $position) {
+            // Move the category up (down the list)
+            static::query()
+                ->where('display_order', '<=', $position)
+                ->where('display_order' , '>', $this->display_order)
+                ->decrement('display_order');
+        } elseif (!$this->display_order) {
+            // Move categories down (up the list) to make space
+            static::query()
+                ->where('display_order', '>=', $position)
+                ->increment('display_order');
+        }
+
+        // Insert at new position
+        $this->display_order = $position;
+        $this->save();
     }
 }

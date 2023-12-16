@@ -50,6 +50,10 @@ return new class extends Migration
             $table->foreign('player_id')->references('player_id')->on('players')->cascadeOnDelete();
             $table->foreign('weapon_id')->references('weapon_id')->on('weapons');
         });
+
+        Artisan::call('db:seed', [
+            '--class' => \Database\Seeders\WeaponSeeder::class,
+        ]);
     }
 
     /**

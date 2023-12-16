@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\WeaponsController;
 use App\Http\Controllers\CompareController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\ProfileController;
@@ -26,17 +28,30 @@ Route::get('/', function () {
     ]);
 });
 
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => '/admin', 'as' => 'admin.'], function () {
+    Route::get('/', function () {
+        return view('admin.index');
+    })->name('admin.index');
+
+    // TODO: Add tests for these routes
+    Route::resource('categories', CategoriesController::class);
+    Route::post('categories/{category}/up', [CategoriesController::class, 'up'])->name('categories.up');
+    Route::post('categories/{category}/down', [CategoriesController::class, 'up'])->name('categories.down');
+    Route::resource('weapons', WeaponsController::class);
+});
+
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('players', PlayersController::class);
     Route::patch('/players/{player}/stats', [PlayersController::class, 'stats'])->name('players.stats');
-    Route::get('/compare', [CompareController::class, 'index'])->name('compare');
-    Route::post('/compare', [CompareController::class, 'postCompare'])->name('compare.post');
-    Route::get('/compare/{player1}/{player2}', [CompareController::class, 'showCompare'])->name('compare.show');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/compare', [CompareController::class, 'index'])->name('compare');
+Route::post('/compare', [CompareController::class, 'postCompare'])->name('compare.post');
+Route::get('/compare/{player1}/{player2}', [CompareController::class, 'showCompare'])->name('compare.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
