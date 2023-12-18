@@ -63,6 +63,10 @@ class CompareController extends Controller
             'comparison' => $comparison,
             'categories' => WeaponCategory::getWeapons(),
             'categoryKills' => $categoryKills,
+            'totalKills' => [
+                'player1' => $player1Stats->sum('kill_count'),
+                'player2' => $player2Stats->sum('kill_count'),
+            ]
         ]);
     }
 }

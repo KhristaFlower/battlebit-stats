@@ -28,7 +28,7 @@
                         </a>
                     </td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm">
-                        {{ $player->total_kills }}
+                        {{ app('number')->format($player->total_kills) }}
                     </td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm">
                         <x-link-button href="{{ route('players.show', $player) }}">

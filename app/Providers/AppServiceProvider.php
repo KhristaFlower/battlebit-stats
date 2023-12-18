@@ -19,6 +19,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->singleton('number', function () {
+            return new class {
+                public function format($number): string
+                {
+                    return match (config('app.locale')) {
+                        'en' => number_format($number),
+                        'de' => number_format($number, 0, ',', '.'),
+                        default => $number,
+                    };
+                }
+            };
+        });
     }
 }
